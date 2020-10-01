@@ -113,8 +113,18 @@ public class BlockProtectionManager {
     public BlockProtection remove(Block block) {
 	return remove(block.getLocation());
     }
-
+    
     public BlockProtection remove(Location loc) {
+    	return remove(loc, false);
+    }
+    
+    /**
+     * Removed the BlockProtection on a specified location
+     * @param loc	The location of the BlockProtection
+     * @param hard	Directly removes the BlockProtection out of the List
+     * @return The BlockProtection
+     */
+    public BlockProtection remove(Location loc, boolean hard) {
 	HashMap<String, HashMap<String, HashMap<String, BlockProtection>>> world = map.get(loc.getWorld());
 	if (world == null)
 	    return null;
@@ -128,6 +138,8 @@ public class BlockProtectionManager {
 	BlockProtection bp = chunk.get(v);
 	if (bp != null)
 	    bp.setAction(DBAction.DELETE);
+	if (hard)
+		chunk.remove(v);
 	return bp;
     }
 
